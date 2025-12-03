@@ -6,16 +6,18 @@ public class CursorManager : MonoBehaviour
     private Vector2 cursorHotspot;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
         // Make the center of the cursor the new hotspot
         cursorHotspot = new Vector2(cursorTexture.width / 2, cursorTexture.height / 2);
 
+        // Set crossair cursor
         Cursor.SetCursor(cursorTexture, cursorHotspot, CursorMode.Auto);
     }
 
-    // Update is called once per frame
-    void Update()
+    // Set default cursor
+    public void SetDefaultCursor()
     {
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
 }
