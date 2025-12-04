@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     private float nextFireTime = 0f;
 
     // === HEALTH ===
-    public HealthUI healthUI;
+    public GameUI healthUI;
 
     [SerializeField] private int playerHealth = 5;
 

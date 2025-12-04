@@ -124,6 +124,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 7408080072771664566}
   enemyCollider: {fileID: 4418466150401612540}
   enemyHealth: 2
+  deathEffectPrefab: {fileID: 8827812571621535055, guid: 7db7a8148a652de4ca598df686e4f23b, type: 3}
 --- !u!1 &4890370535763998426
 GameObject:
   m_ObjectHideFlags: 0

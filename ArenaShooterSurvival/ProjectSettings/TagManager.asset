@@ -6,11 +6,12 @@ TagManager:
   tags:
   - Projectile
   - Enemy
+  - ArenaBounds
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - ArenaBoundLayer
   - Water
   - UI
   - 

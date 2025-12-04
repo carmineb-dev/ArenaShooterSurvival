@@ -19,7 +19,7 @@ public class Projectile : MonoBehaviour
     // Destroy the projectile when hits something
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") || collision.CompareTag("ArenaBounds"))
         {
             return;
         }

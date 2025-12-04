@@ -7,6 +7,9 @@ public class EnemyChaser : MonoBehaviour
     // === REFERENCE TO PLAYER ===
     private GameObject player;
 
+    // === REFERENCE TO SPAWN MANAGER ===
+    private SpawnManager spawnManager;
+
     // === ENEMY ===
     [SerializeField] private float speed = 5f;
 
@@ -17,6 +20,9 @@ public class EnemyChaser : MonoBehaviour
     [SerializeField] private int enemyHealth = 2;
 
     private bool isDead = false;
+
+    // === EFFECTS ===
+    [SerializeField] private GameObject deathEffectPrefab;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -68,8 +74,15 @@ public class EnemyChaser : MonoBehaviour
             enemyCollider.enabled = false;
         }
 
-        // Start fadeout
+        if (deathEffectPrefab != null)
+        {
+            Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
+        }
 
+        // Decrease enemy count in Wave manager
+        spawnManager?.EnemyDestroyed();
+
+        // Start fadeout
         StartCoroutine(FadeOut(0.5f));
     }
 
@@ -98,5 +111,10 @@ public class EnemyChaser : MonoBehaviour
 
         yield return new WaitForSeconds(duration);
         spriteRenderer.color = originalColor;
+    }
+
+    public void SetSpawnManager(SpawnManager manager)
+    {
+        spawnManager = manager;
     }
 }
