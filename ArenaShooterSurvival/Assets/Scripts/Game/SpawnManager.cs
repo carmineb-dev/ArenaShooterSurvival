@@ -5,10 +5,16 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
+    // === WAVES ===
     public int currentWave = 0;
+
     private int displayWave;
 
-    [SerializeField] private GameObject enemyPrefab;
+    // === ENEMY ===
+    [SerializeField] private GameObject enemyChaserPrefab;
+
+    [SerializeField] private GameObject enemyFastPrefab;
+    [SerializeField] private GameObject enemyTankPrefab;
 
     private int enemyCount;
 
@@ -20,53 +26,121 @@ public class SpawnManager : MonoBehaviour
     // === REFERENCE TO GAMEUI ===
     [SerializeField] private GameUI gameUI;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    // // === REFERENCE TO PLAYER TRANSFORM COMPONENT ===
+    [SerializeField] private Transform playerTransform;
+
     private void Start()
     {
+        // Calculate the arena bounds in which spawning is allowed
         minX = arenaBounds.bounds.min.x;
         minY = arenaBounds.bounds.min.y;
         maxX = arenaBounds.bounds.max.x;
         maxY = arenaBounds.bounds.max.y;
 
+        // Spawn the first wave
         StartWave(currentWave);
     }
 
-    // Update is called once per frame
-    private void Update()
-    {
-    }
-
+    // === Spawn a new wave ===
     private void StartWave(int currentWave)
     {
+        int chasers, fast, tanks;
+
         // Refresh UI Wave text
         displayWave = currentWave + 1;
         gameUI.UpdateWave(displayWave);
 
-        // Calculate enemy to spawn each wave
-        int enemyToSpawn = 3 + (currentWave * 2);
+        // Set amount of each type of enemy
+        if (currentWave <= 3)
+        {
+            chasers = 3 + currentWave;
+            fast = 0;
+            tanks = 0;
+        }
+        else if (currentWave <= 7)
+        {
+            chasers = 3 + (currentWave / 2);
+            fast = currentWave - 3;
+            tanks = 0;
+        }
+        else
+        {
+            chasers = 4;
+            fast = 3 + (currentWave - 7);
+            tanks = 1 + (currentWave - 8) / 2;
+        }
 
-        // Spawn enemies at random position
-        for (int i = 0; i < enemyToSpawn; i++)
+        // Set enemy count
+        enemyCount = chasers + fast + tanks;
+
+        // Start to spawn enemies
+        SpawnEnemies(chasers, fast, tanks);
+    }
+
+    // Get a spawn position that don't collide with other objects
+    private Vector3 GetValidSpawnPoint()
+    {
+        Vector3 spawnPos;
+        int maxAttempts = 10;
+        int attempts = 0;
+
+        do
         {
             // Generate random spawn position
             float spawnPosX = Random.Range(minX, maxX);
             float spawnPosY = Random.Range(minY, maxY);
-            Vector3 spawnPos = new Vector3(spawnPosX, spawnPosY, 0);
+            spawnPos = new Vector3(spawnPosX, spawnPosY, 0);
+            attempts++;
 
-            // Instantiate a new enemy at the spawn position with no rotation
-            GameObject enemyObj = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+            // Check if spawnPos is free
+            Collider2D hit = Physics2D.OverlapCircle(spawnPos, 0.5f);
 
-            // Get the EnemyChaser script from the spawned enemy
-            EnemyChaser enemyScript = enemyObj.GetComponent<EnemyChaser>();
+            // Free position
+            if (hit == null)
+            {
+                return spawnPos;
+            }
+        } while (attempts < maxAttempts);
 
-            // Assign this SpawnManager to the enemy so it can notify when it dies
-            enemyScript.SetSpawnManager(this);
+        // Spawn anyway after 10 attempts
+        return spawnPos;
+    }
 
-            // Increment enemy count
-            enemyCount++;
+    // Spawn the enemies
+    private void SpawnEnemies(int chasers, int fast, int tanks)
+    {
+        for (int i = 0; i < chasers; i++)
+        {
+            Spawn(enemyChaserPrefab);
+        }
+
+        for (int i = 0; i < fast; i++)
+        {
+            Spawn(enemyFastPrefab);
+        }
+
+        for (int i = 0; i < tanks; i++)
+        {
+            Spawn(enemyTankPrefab);
         }
     }
 
+    private void Spawn(GameObject enemyToSpawn)
+    {
+        // Get a valid spawn point
+        Vector3 spawnPos = GetValidSpawnPoint();
+
+        // Instantiate a new enemy at the spawn position with no rotation
+        GameObject enemyObj = Instantiate(enemyToSpawn, spawnPos, Quaternion.identity);
+
+        // Get the Enemy script from the spawned enemy
+        Enemy enemyScript = enemyObj.GetComponent<Enemy>();
+
+        // Pass player reference
+        enemyScript.Initialize(playerTransform);
+    }
+
+    // Everytime an enemy is destroyed
     public void EnemyDestroyed()
     {
         // Decrement enemy count
@@ -80,9 +154,10 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
+    // Countdown to the next wave
     private IEnumerator StartNextWaveCountdown()
     {
-        // Shows 3 seconds countdown
+        // Shows 3 seconds countdown text
         yield return StartCoroutine(gameUI.ShowNextWave());
 
         // Increment the current wave index

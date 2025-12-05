@@ -1,9 +1,17 @@
-using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemyChaser : Enemy
+public class EnemyFast : Enemy
 {
+    protected override void Start()
+    {
+        base.Start();
+
+        // Override stats
+        maxHealth = 1;
+        speed = 6f;
+        currentHealth = maxHealth;
+    }
+
     protected override void FixedUpdate()
     {
         // If enemy is dead disable movement

@@ -4675,10 +4675,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b5c6123d0afdce44a5f6849743bcbca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaveManager
-  currentWave: 0
-  enemyPrefab: {fileID: 3725906493082323156, guid: 30b3cba421c15bd41b4aec030282dde0, type: 3}
+  currentWave: 5
+  enemyChaserPrefab: {fileID: 3725906493082323156, guid: 30b3cba421c15bd41b4aec030282dde0, type: 3}
+  enemyFastPrefab: {fileID: 6458175410548594229, guid: b1093505dcd2fa043adfecb927420c25, type: 3}
+  enemyTankPrefab: {fileID: 3141979684805184760, guid: 567df1a88dda4ac428c06bfbe7729297, type: 3}
   arenaBounds: {fileID: 684865795}
   gameUI: {fileID: 793097538}
+  playerTransform: {fileID: 842524160}
 --- !u!1 &577193921
 GameObject:
   m_ObjectHideFlags: 0
@@ -5196,6 +5199,8 @@ MonoBehaviour:
   nextWaveText: {fileID: 1817668833}
   nextWaveGroup: {fileID: 1817668835}
   spawnManager: {fileID: 485865589}
+  fadeDuration: 1
+  countdownTime: 3
 --- !u!1 &842524158
 GameObject:
   m_ObjectHideFlags: 0
@@ -5276,6 +5281,7 @@ MonoBehaviour:
   firePoint: {fileID: 1863310179}
   projectilePrefab: {fileID: 6651003776795507297, guid: f4c964681a59e9d448a7f55850eee6c5, type: 3}
   fireCooldown: 0.3
+  nextFireTime: 0
   healthUI: {fileID: 793097538}
   playerHealth: 5
   isGameOver: 0
@@ -6519,7 +6525,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8945859d1313348aa837a3c1910955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameController
-  currentWave: 1
   player: {fileID: 842524162}
   gameOverScreen: {fileID: 843743700}
   cursor: {fileID: 703785520}

@@ -2,10 +2,11 @@ using UnityEngine;
 
 public class CursorManager : MonoBehaviour
 {
+    // === CURSOR ===
     [SerializeField] private Texture2D cursorTexture;
+
     private Vector2 cursorHotspot;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
         // Make the center of the cursor the new hotspot

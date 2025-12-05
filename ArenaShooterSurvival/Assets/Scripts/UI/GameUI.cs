@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameUI : MonoBehaviour
 {
     // === HEALTH BAR ===
-    public GameObject[] healthBars;
+    [SerializeField] private GameObject[] healthBars;
 
     // === WAVE TEXT ===
     [SerializeField] private TextMeshProUGUI waveText;
@@ -15,10 +15,15 @@ public class GameUI : MonoBehaviour
 
     [SerializeField] private CanvasGroup nextWaveGroup;
 
-    // === REFERENCE TO SPAWN MANAGER
+    // === REFERENCE TO SPAWN MANAGER ===
     [SerializeField] private SpawnManager spawnManager;
 
-    // Update the health ui of the player
+    // === TEXT FADING ===
+    [SerializeField] private float fadeDuration = 1f;
+
+    [SerializeField] private int countdownTime = 3;
+
+    // Update the health ui based on current player health
     public void UpdateHealth(int currentHealth)
     {
         for (int i = 0; i < healthBars.Length; i++)
@@ -40,10 +45,6 @@ public class GameUI : MonoBehaviour
         nextWaveGroup.gameObject.SetActive(true);
 
         int currentWave = spawnManager.currentWave + 1;
-
-        float fadeDuration = 1f;
-
-        int countdownTime = 3;
 
         nextWaveText.text = $"Wave {currentWave} Complete! Next in 3...";
 

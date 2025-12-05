@@ -14,17 +14,16 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveInput;
 
     // === SHOOTING ===
-    public Transform firePoint;
+    [SerializeField] private Transform firePoint;
 
-    public GameObject projectilePrefab;
-    public float fireCooldown = 0.3f;
-    private float nextFireTime = 0f;
+    [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private float fireCooldown = 0.3f;
+    [SerializeField] private float nextFireTime = 0f;
 
     // === HEALTH ===
-    public GameUI healthUI;
+    [SerializeField] private GameUI healthUI;
 
     [SerializeField] private int playerHealth = 5;
-
     public bool isGameOver = false;
 
     // === INVINCIBILITY ===
@@ -50,8 +49,6 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private AudioClip shootSound;
 
-    // === START ===
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
         // Initialize rigidbody
@@ -64,8 +61,6 @@ public class PlayerController : MonoBehaviour
         mainCamera = Camera.main;
     }
 
-    // === UPDATE ===
-    // Update is called once per frame
     private void FixedUpdate()
     {
         // Combine player movement + knockback
@@ -79,7 +74,7 @@ public class PlayerController : MonoBehaviour
         RotatePlayer();
     }
 
-    // === ROTATE PLAYER ===
+    // Rotate player based on mouse position
     public void RotatePlayer()
     {
         // Calculate Mouse Position
@@ -95,12 +90,13 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
     }
 
+    // Input that moves the player
     public void Move(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
     }
 
-    // === INPUT FIRE ===
+    // Input to shoot
     public void Fire(InputAction.CallbackContext context)
     {
         if (context.started && Time.time >= nextFireTime)
@@ -110,13 +106,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Shooting
     private void Shoot()
     {
         Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
         AudioManager.instance.playSfx(shootSound, 0.5f);
     }
 
-    // === PLAYER TAKES DAMAGE ===
+    // Player takes damage on collision with an enemy and is not invincible
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (!isInvincible && collision.gameObject.CompareTag("Enemy"))
@@ -145,6 +142,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Invincibility timer
     private IEnumerator BecomeTemporarilyInvincible()
     {
         // Start invincibility
@@ -179,6 +177,7 @@ public class PlayerController : MonoBehaviour
         isInvincible = false;
     }
 
+    // Knockback
     private void Knockback(Transform enemy)
     {
         // Calculate knockback direction
