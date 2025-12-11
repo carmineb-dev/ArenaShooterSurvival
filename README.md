@@ -93,7 +93,7 @@ This is my first complete game project. Focus areas:
 **Purpose:** Educational/Portfolio  
 **Developer:** Carmine Billi
 **Date:** December 2025  
-**GitHub:** https://github.com/carmineb-dev/ArenaShooterSurvival
+**GitHub:** (https://github.com/carmineb-dev/ArenaShooter)
 
 ---
 
