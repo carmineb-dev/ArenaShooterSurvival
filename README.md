@@ -59,7 +59,7 @@ Fight endless waves of enemies. Each wave spawns more and tougher enemies.
 
 ## 📦 Assets
 
-- **Sprites:** Kenney.nl / Opengameart.com CC0
+- **Sprites:** Kenney.nl / Opengameart.org CC0
 - **Audio:** Placeholder/free sound effects CC0
 - **Particles:** Unity Particle System
 
