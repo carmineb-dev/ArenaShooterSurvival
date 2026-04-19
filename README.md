@@ -37,8 +37,7 @@ Fight endless waves of enemies. Each wave spawns more and tougher enemies.
 ## 🛠️ Technical Details
 
 **Engine:** Unity 2D  
-**Language:** C#  
-**Development Time:** 10 days (December 1-11, 2025)
+**Language:** C# 
 
 ### Features Implemented
 - New Input System for player controls
@@ -77,7 +76,7 @@ This is my first complete game project. Focus areas:
 
 - Sprites are placeholders (zombie theme doesn't perfectly match gameplay aesthetic)
 - No sprite animations (static sprites only)
-- Custom cursor remains visible on all screens (intentional simplification)
+- Custom cursor remains visible on all screens
 
 ## 🚀 Potential Future Improvements
 
@@ -93,7 +92,6 @@ This is my first complete game project. Focus areas:
 **Purpose:** Educational/Portfolio  
 **Developer:** Carmine Billi
 **Date:** December 2025  
-**GitHub:** (https://github.com/carmineb-dev/ArenaShooterSurvival)
 
 ---
 
